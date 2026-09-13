@@ -6,7 +6,7 @@ import { useClaudeSettings } from '@/contexts/ClaudeSettingsContext';
 import { SettingBadge, SettingBadgeVariant } from '@/components';
 import { SettingKey } from '@/types/settings';
 import { useCliConfig } from '@/contexts/CliConfigContext';
-import { DEFAULT_MODEL_ALIAS } from '@/types/models';
+import { DEFAULT_MODEL_ALIAS, resolveModelRowText } from '@/types/models';
 import { useTranslation } from '@/i18n';
 import { useIsOverriddenByProject } from '@/utils/settingsScope';
 
@@ -24,7 +24,10 @@ export function ModelSettings() {
       ? [{ value: '', label: t('cli.model.defaultRecommended') }]
       : availableModels.map((m) => ({
           value: m.value === DEFAULT_MODEL_ALIAS ? '' : m.value,
-          label: m.displayName,
+          // Not `displayName`: a remapped slot advertises Anthropic's name while
+          // running someone else's model, and picking a default by a name that
+          // is not the model's is how the wrong default gets saved.
+          label: resolveModelRowText(m).title,
         }));
 
   return (

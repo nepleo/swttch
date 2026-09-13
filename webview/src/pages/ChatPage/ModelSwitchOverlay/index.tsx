@@ -9,8 +9,9 @@ import {
   findModelForSelection,
   resolveModelInfo,
   resolveModelLabel,
+  resolveModelRowText,
 } from '@/types/models';
-import type { ModelInfo } from '@/types/slashCommand';
+import { ModelInfo } from '@/types/slashCommand';
 import { useTranslation } from '@/i18n';
 
 export const SWITCH_MODEL_EVENT = 'switch-model';
@@ -47,6 +48,7 @@ export function ModelSwitchOverlay({ onClose, autoSelectQuery }: ModelSwitchOver
   const panelRef = useRef<HTMLDivElement>(null);
 
   const models: ModelInfo[] = controlResponse?.response?.response?.models ?? [];
+
   // No default fallback: if we can't identify the running model, no row is
   // ticked — better than ticking "Default" and claiming a selection the user
   // never made (issue #217).
@@ -182,6 +184,9 @@ export function ModelSwitchOverlay({ onClose, autoSelectQuery }: ModelSwitchOver
           // Sonnet model" and "Custom Haiku model" — and comparing values ticks
           // both rows.
           const selected = m === currentInfo;
+          // Written from the row rather than read off it: a remapped slot
+          // advertises a model it does not run (see resolveModelRowText).
+          const { title, blurb } = resolveModelRowText(m);
           return (
             <button
               // `value` is the string we hand the CLI, not an identity within
@@ -197,11 +202,11 @@ export function ModelSwitchOverlay({ onClose, autoSelectQuery }: ModelSwitchOver
               <span className="flex flex-col min-w-0">
                 <span className="flex items-center gap-1.5 min-w-0">
                   <span className="leading-tight text-[1rem] truncate text-text-primary">
-                    {m.displayName}
+                    {title}
                   </span>
                 </span>
                 <span className="leading-normal text-[0.8461rem] truncate text-text-secondary/80">
-                  {m.description}
+                  {blurb}
                 </span>
               </span>
               {selected && (

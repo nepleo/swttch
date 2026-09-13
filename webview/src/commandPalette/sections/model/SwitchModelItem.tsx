@@ -4,7 +4,7 @@ import { enKeyword } from '../../enKeyword';
 import { SWITCH_MODEL_EVENT } from '@/pages/ChatPage/ModelSwitchOverlay';
 import { useCliConfig } from '@/contexts/CliConfigContext';
 import { useCurrentModel } from '@/hooks/useCurrentModel';
-import { resolveModelInfo } from '@/types/models';
+import { resolveModelInfo, resolveModelLabel } from '@/types/models';
 
 const SwitchModelValue = () => {
   const { controlResponse } = useCliConfig();
@@ -12,7 +12,7 @@ const SwitchModelValue = () => {
   const models = controlResponse?.response?.response?.models ?? [];
   // Unidentified models show their raw value rather than "Default" (issue #217).
   const info = resolveModelInfo(models, currentModel, { allowDefaultFallback: false });
-  const text = info?.displayName ?? currentModel;
+  const text = info ? resolveModelLabel(info) : currentModel;
   return (
     <span className="text-[0.8461rem] text-text-secondary whitespace-nowrap">
       {text}
