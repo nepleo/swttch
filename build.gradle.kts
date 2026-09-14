@@ -188,15 +188,15 @@ intellijPlatform {
             untilBuild = provider { null }
         }
         changeNotes = """
-            <h3>0.30.5 - Context tooltip and English streaming verbs</h3>
+            <h3>0.30.5 - Context tooltip, English verbs, no Prompt Library</h3>
             <ul>
                 <li>Show max context on hover of the usage tag; keep the percent label (including 0%)</li>
                 <li>Keep Claude Code English streaming verbs; leave 思考中 in Chinese</li>
+                <li>Remove the Prompt Library (!!) feature</li>
                 <li>Hide the Sponsor settings page and treat the build as sponsored</li>
             </ul>
-            <h3>0.30.3 - Prompt Library, background agents, and model labels</h3>
+            <h3>0.30.3 - Background agents and model labels</h3>
             <ul>
-                <li>Add a Prompt Library for the phrases you retype, opened with !! in the chat input (#440)</li>
                 <li>Add a composer for sending a background agent another message and resuming it (#437)</li>
                 <li>Fix the agent list growing without bound and disappearing on reload (#437)</li>
                 <li>Fix a session past the 30th failing to open and showing the wrong title (#435)</li>
