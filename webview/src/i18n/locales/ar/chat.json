@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "إضافة رسالة أخرى إلى القائمة...",
-      "hint": "@ to reference files, / for commands, {{send}} to send"
+      "hint": "Do anything"
     },
     "ariaLabel": "مراسلة Claude",
     "autoModeFallback": "الوضع التلقائي غير متاح هنا — سيُستخدم وضع الأذونات الافتراضي بدلًا منه.",

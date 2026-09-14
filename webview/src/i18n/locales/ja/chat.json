@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "次のメッセージをキューに追加...",
-      "hint": "@ to reference files, / for commands, {{send}} to send"
+      "hint": "Do anything"
     },
     "ariaLabel": "Claudeにメッセージを送信",
     "autoModeFallback": "ここでは自動モードは使用できません — 代わりにデフォルトの権限モードを使用します。",

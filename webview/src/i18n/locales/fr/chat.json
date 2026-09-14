@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "Mettre un autre message en file d'attente...",
-      "hint": "@ to reference files, / for commands, {{send}} to send"
+      "hint": "Do anything"
     },
     "ariaLabel": "Message à Claude",
     "autoModeFallback": "Le mode automatique n'est pas disponible ici — utilisation du mode d'autorisation par défaut à la place.",

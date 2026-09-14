@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "پیام دیگری در صف قرار دهید...",
-      "hint": "@ to reference files, / for commands, {{send}} to send"
+      "hint": "Do anything"
     },
     "ariaLabel": "پیام به Claude",
     "autoModeFallback": "حالت خودکار اینجا در دسترس نیست — به‌جای آن از حالت مجوز پیش‌فرض استفاده می‌شود.",

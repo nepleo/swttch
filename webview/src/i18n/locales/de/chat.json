@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "Weitere Nachricht in die Warteschlange...",
-      "hint": "@ to reference files, / for commands, {{send}} to send"
+      "hint": "Do anything"
     },
     "ariaLabel": "Nachricht an Claude",
     "autoModeFallback": "Der Auto-Modus ist hier nicht verfügbar — der Standard-Berechtigungsmodus wird stattdessen verwendet.",

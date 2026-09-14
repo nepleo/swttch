@@ -192,7 +192,7 @@ intellijPlatform {
             <ul>
                 <li>Show 已使用 0% immediately; estimate context window from the model id on system/init</li>
                 <li>Restore usage percent when reopening a session that already has token usage</li>
-                <li>Replace the unused ⌘ Esc placeholder with an English @ / Enter hint in every locale</li>
+                <li>Replace the unused ⌘ Esc placeholder with a fixed English "Do anything" hint</li>
             </ul>
             <h3>0.30.5 - Context tooltip, English verbs, no Prompt Library</h3>
             <ul>

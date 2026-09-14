@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "Добавить ещё одно сообщение в очередь...",
-      "hint": "@ to reference files, / for commands, {{send}} to send"
+      "hint": "Do anything"
     },
     "ariaLabel": "Сообщение для Claude",
     "autoModeFallback": "Автоматический режим здесь недоступен — используется режим разрешений по умолчанию.",

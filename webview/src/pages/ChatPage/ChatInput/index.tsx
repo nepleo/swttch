@@ -42,7 +42,6 @@ import { MentionDropdown } from './MentionDropdown';
 import { isMobile, isBrowser } from '@/config/environment';
 import { featureDocUrl } from '@/config/app';
 import { shouldSubmitOnEnter } from './shouldSubmitOnEnter';
-import { sendKeyLabel } from './sendKeyLabel';
 import { arrowRecallsHistory } from './caretAtEdge';
 import { basename } from './basename';
 import { RichInput } from './RichInput';
@@ -804,7 +803,7 @@ export function ChatInput() {
             placeholder={
               isStreaming
                 ? t('chatInput.placeholder.queueMessage')
-                : `@ to reference files, / for commands, ${sendKeyLabel(appSettings.useCtrlEnterToSend ?? false)} to send`
+                : 'Do anything'
             }
             disabled={disabled}
             ariaLabel={t('chatInput.ariaLabel')}
