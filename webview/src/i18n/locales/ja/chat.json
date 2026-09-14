@@ -86,8 +86,8 @@
       "setModelNotification": "モデルを {{model}} に設定しました"
     },
     "placeholder": {
-      "queueMessage": "次のメッセージをキューに追加...",
-      "hint": "Do anything"
+      "queueMessage": "Queue another message...",
+      "hint": "@ to add files, / for commands, {{send}} to send"
     },
     "ariaLabel": "Claudeにメッセージを送信",
     "autoModeFallback": "ここでは自動モードは使用できません — 代わりにデフォルトの権限モードを使用します。",

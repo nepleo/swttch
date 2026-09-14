@@ -86,8 +86,8 @@
       "setModelNotification": "Modelo definido como {{model}}"
     },
     "placeholder": {
-      "queueMessage": "Enfileirar outra mensagem...",
-      "hint": "Do anything"
+      "queueMessage": "Queue another message...",
+      "hint": "@ to add files, / for commands, {{send}} to send"
     },
     "ariaLabel": "Mensagem para o Claude",
     "autoModeFallback": "O modo automático não está disponível aqui — usando o modo de permissão padrão.",

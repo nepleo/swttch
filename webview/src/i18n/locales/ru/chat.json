@@ -86,8 +86,8 @@
       "setModelNotification": "Модель изменена на {{model}}"
     },
     "placeholder": {
-      "queueMessage": "Добавить ещё одно сообщение в очередь...",
-      "hint": "Do anything"
+      "queueMessage": "Queue another message...",
+      "hint": "@ to add files, / for commands, {{send}} to send"
     },
     "ariaLabel": "Сообщение для Claude",
     "autoModeFallback": "Автоматический режим здесь недоступен — используется режим разрешений по умолчанию.",

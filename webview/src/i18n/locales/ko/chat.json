@@ -86,8 +86,8 @@
       "setModelNotification": "모델을 {{model}}(으)로 설정"
     },
     "placeholder": {
-      "queueMessage": "다음 메시지 대기열에 추가...",
-      "hint": "Do anything"
+      "queueMessage": "Queue another message...",
+      "hint": "@ to add files, / for commands, {{send}} to send"
     },
     "ariaLabel": "Claude에게 메시지 보내기",
     "autoModeFallback": "여기서는 자동 모드를 사용할 수 없어 기본 권한 모드를 대신 사용합니다.",

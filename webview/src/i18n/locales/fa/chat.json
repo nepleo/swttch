@@ -86,8 +86,8 @@
       "setModelNotification": "مدل روی {{model}} تنظیم شد"
     },
     "placeholder": {
-      "queueMessage": "پیام دیگری در صف قرار دهید...",
-      "hint": "Do anything"
+      "queueMessage": "Queue another message...",
+      "hint": "@ to add files, / for commands, {{send}} to send"
     },
     "ariaLabel": "پیام به Claude",
     "autoModeFallback": "حالت خودکار اینجا در دسترس نیست — به‌جای آن از حالت مجوز پیش‌فرض استفاده می‌شود.",

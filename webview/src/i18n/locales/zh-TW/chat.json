@@ -86,8 +86,8 @@
       "setModelNotification": "已將模型設為 {{model}}"
     },
     "placeholder": {
-      "queueMessage": "排入下一則訊息...",
-      "hint": "Do anything"
+      "queueMessage": "Queue another message...",
+      "hint": "@ to add files, / for commands, {{send}} to send"
     },
     "ariaLabel": "傳送訊息給 Claude",
     "autoModeFallback": "此處無法使用自動模式 — 將改用預設權限模式。",

@@ -86,8 +86,8 @@
       "setModelNotification": "تعيين النموذج إلى {{model}}"
     },
     "placeholder": {
-      "queueMessage": "إضافة رسالة أخرى إلى القائمة...",
-      "hint": "Do anything"
+      "queueMessage": "Queue another message...",
+      "hint": "@ to add files, / for commands, {{send}} to send"
     },
     "ariaLabel": "مراسلة Claude",
     "autoModeFallback": "الوضع التلقائي غير متاح هنا — سيُستخدم وضع الأذونات الافتراضي بدلًا منه.",

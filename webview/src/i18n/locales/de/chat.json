@@ -86,8 +86,8 @@
       "setModelNotification": "Modell auf {{model}} gesetzt"
     },
     "placeholder": {
-      "queueMessage": "Weitere Nachricht in die Warteschlange...",
-      "hint": "Do anything"
+      "queueMessage": "Queue another message...",
+      "hint": "@ to add files, / for commands, {{send}} to send"
     },
     "ariaLabel": "Nachricht an Claude",
     "autoModeFallback": "Der Auto-Modus ist hier nicht verfügbar — der Standard-Berechtigungsmodus wird stattdessen verwendet.",

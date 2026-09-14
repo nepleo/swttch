@@ -35,6 +35,7 @@ import { OPEN_SESSION_DROPDOWN_EVENT, OPEN_SCHEDULE_SEND_EVENT } from '@/command
 import { useClaudeSettings } from '@/contexts/ClaudeSettingsContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { displayShortcut } from '@/utils/shortcut';
+import { sendKeyLabel } from './sendKeyLabel';
 import { useEffort } from '@/hooks/useEffort';
 import { useMention } from './hooks/useMention';
 import { useEditorContext } from '@/hooks/useEditorContext';
@@ -802,8 +803,8 @@ export function ChatInput() {
             onPaste={handleRichPaste}
             placeholder={
               isStreaming
-                ? t('chatInput.placeholder.queueMessage')
-                : 'Do anything'
+                ? 'Queue another message...'
+                : `@ to add files, / for commands, ${sendKeyLabel(appSettings.useCtrlEnterToSend ?? false)} to send`
             }
             disabled={disabled}
             ariaLabel={t('chatInput.ariaLabel')}
