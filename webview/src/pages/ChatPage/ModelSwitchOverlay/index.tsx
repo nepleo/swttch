@@ -5,10 +5,10 @@ import { useCliConfig } from '@/contexts/CliConfigContext';
 import { useCurrentModel } from '@/hooks/useCurrentModel';
 import { useModelSwitch } from '@/hooks/useModelSwitch';
 import { LoadedMessageType } from '@/types';
+import { modelChangeLabel } from '@/pages/ChatPage/modelChangeLabel';
 import {
   findModelForSelection,
   resolveModelInfo,
-  resolveModelLabel,
   resolveModelRowText,
 } from '@/types/models';
 import { ModelInfo } from '@/types/slashCommand';
@@ -85,7 +85,7 @@ export function ModelSwitchOverlay({ onClose, autoSelectQuery }: ModelSwitchOver
       type: LoadedMessageType.Notification,
       uuid: crypto.randomUUID(),
       timestamp: new Date().toISOString(),
-      summary: t('modelSwitch.setModelTo', { model: info ? resolveModelLabel(info) : value }),
+      summary: t('modelSwitch.setModelTo', { model: info ? modelChangeLabel(info) : value }),
       modelChangeValue: value,
     });
 
