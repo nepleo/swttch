@@ -8,9 +8,7 @@ import {
   modelChangeTarget,
   isModelChangeFor,
   isAutoModeAvailable,
-  withFableFallback,
   resolveCurrentModel,
-  FABLE_FALLBACK_MODEL,
   DEFAULT_MODEL_ALIAS,
 } from '../models';
 import type { ModelInfo } from '../slashCommand';
@@ -252,8 +250,13 @@ describe('resolveModelLabel', () => {
     expect(resolveModelLabel(opus5)).toBe('Opus 5');
   });
 
-  it('extracts "Fable 5" from the hardcoded fallback description', () => {
-    expect(resolveModelLabel(FABLE_FALLBACK_MODEL)).toBe('Fable 5');
+  it('extracts "Fable 5" from a Fable-shaped description', () => {
+    const fable: ModelInfo = {
+      value: 'fable',
+      displayName: 'Fable',
+      description: 'Fable 5 · Most capable for your hardest and longest-running tasks',
+    };
+    expect(resolveModelLabel(fable)).toBe('Fable 5');
   });
 });
 
@@ -380,127 +383,6 @@ describe('isModelChangeFor', () => {
 
   it('is false for text that is not a model-change line', () => {
     expect(isModelChangeFor('hello world', 'sonnet', models)).toBe(false);
-  });
-});
-
-describe('withFableFallback', () => {
-  const def = model('default', 'Default (recommended)');
-  const opus = model('opus', 'Opus');
-  // A CLI version new enough to select Fable (>= 2.1.170).
-  const SUPPORTED_CLI = '2.1.170';
-
-  it('inserts the hardcoded Fable item when a probe confirms and the list lacks Fable', () => {
-    const merged = withFableFallback([def, opus], SUPPORTED_CLI, true);
-    expect(merged).toHaveLength(3);
-    // Fable ranks just below "default" and above Opus (index 1), not appended last.
-    expect(merged[1]).toBe(FABLE_FALLBACK_MODEL);
-    expect(merged[1].value).toBe('fable');
-    // Verbatim CLI structure: short displayName + "Fable 5 · …" description so
-    // resolveModelLabel can extract "Fable 5" as the label.
-    expect(merged[1].displayName).toBe('Fable');
-    expect(resolveModelLabel(merged[1])).toBe('Fable 5');
-  });
-
-  it('ranks Fable just below the default item and above the other models', () => {
-    const sonnet = model('sonnet', 'Sonnet');
-    const merged = withFableFallback([def, opus, sonnet], SUPPORTED_CLI, true);
-    expect(merged.map((m) => m.value)).toEqual(['default', 'fable', 'opus', 'sonnet']);
-  });
-
-  it('places Fable first when there is no default item', () => {
-    const merged = withFableFallback([opus], SUPPORTED_CLI, true);
-    expect(merged.map((m) => m.value)).toEqual(['fable', 'opus']);
-  });
-
-  it('does not append when a "fable" alias item is already present (dedup)', () => {
-    const cliFable = model('fable', 'Fable 5');
-    const merged = withFableFallback([def, cliFable], SUPPORTED_CLI, true);
-    expect(merged).toHaveLength(2);
-    expect(merged).toEqual([def, cliFable]);
-  });
-
-  it('dedups against a full Fable model id the CLI may hand back', () => {
-    const cliFable = model('claude-fable-5', 'Fable 5');
-    const merged = withFableFallback([def, cliFable], SUPPORTED_CLI, true);
-    expect(merged).toHaveLength(2);
-    expect(merged.some((m) => m === FABLE_FALLBACK_MODEL)).toBe(false);
-  });
-
-  it('leaves an empty list untouched so "loading" state is preserved', () => {
-    // An empty list means the CLI config has not arrived yet; consumers treat
-    // length 0 as "loading" (hide the tag / show a spinner). Injecting Fable
-    // there would break that, so the fallback only augments a loaded list.
-    expect(withFableFallback([], SUPPORTED_CLI, true)).toEqual([]);
-  });
-
-  it('does not inject the fallback when no probe has run (undefined)', () => {
-    // Availability is per-account and there is no date window anymore; without a
-    // confirming probe (probedAvailable omitted) we must not surface Fable.
-    const merged = withFableFallback([def, opus], SUPPORTED_CLI);
-    expect(merged).toEqual([def, opus]);
-  });
-
-  it('offers the fallback when a probe confirms availability', () => {
-    // The probe made a real `--model fable` call and it succeeded for this
-    // account, so we offer Fable.
-    const merged = withFableFallback([def, opus], SUPPORTED_CLI, true);
-    expect(merged).toHaveLength(3);
-    expect(merged[1]).toBe(FABLE_FALLBACK_MODEL);
-  });
-
-  it('does not append when the probe says unavailable', () => {
-    const merged = withFableFallback([def, opus], SUPPORTED_CLI, false);
-    expect(merged).toEqual([def, opus]);
-  });
-
-  it('ignores a pending probe (null)', () => {
-    // null = probe not resolved yet; stay conservative until it lands.
-    const merged = withFableFallback([def, opus], SUPPORTED_CLI, null);
-    expect(merged).toEqual([def, opus]);
-  });
-
-  it('does not append even if probed available when the CLI is too old', () => {
-    // The version gate runs before the probe check: an old CLI can't select
-    // Fable regardless of what the probe reported.
-    const merged = withFableFallback([def, opus], '2.1.169', true);
-    expect(merged).toEqual([def, opus]);
-  });
-
-  it('still respects a CLI-served Fable entry regardless of probe (server decides)', () => {
-    // If the account's catalog carries Fable, it stays — the server, not us,
-    // decides availability; no probe needed.
-    const cliFable = model('fable', 'Fable 5');
-    const merged = withFableFallback([def, cliFable], SUPPORTED_CLI);
-    expect(merged).toEqual([def, cliFable]);
-  });
-
-  it('does not append the fallback when the CLI is too old to select Fable', () => {
-    // CLI 2.1.169 < 2.1.170: it doesn't know `--model fable`, so offering the
-    // hardcoded fallback would surface a model the user can't actually select.
-    const merged = withFableFallback([def, opus], '2.1.169', true);
-    expect(merged).toEqual([def, opus]);
-    expect(merged.some((m) => toModelAlias(m.value) === 'fable')).toBe(false);
-  });
-
-  it('does not append the fallback when the CLI version is unknown (null)', () => {
-    // A null version means we can't confirm Fable support; stay conservative.
-    const merged = withFableFallback([def, opus], null, true);
-    expect(merged).toEqual([def, opus]);
-  });
-
-  it('offers the fallback when the CLI is exactly at the minimum version', () => {
-    // 2.1.170 is the first CLI that knows Fable — inclusive threshold.
-    const merged = withFableFallback([def, opus], '2.1.170', true);
-    expect(merged).toHaveLength(3);
-    expect(merged[1]).toBe(FABLE_FALLBACK_MODEL);
-  });
-
-  it('keeps a CLI-served Fable even on an old CLI (dedup wins over version gate)', () => {
-    // If the catalog already carries Fable, that dynamic entry is trusted
-    // regardless of the parsed version — the dedup check runs first.
-    const cliFable = model('fable', 'Fable 5');
-    const merged = withFableFallback([def, cliFable], '2.1.100');
-    expect(merged).toEqual([def, cliFable]);
   });
 });
 

@@ -8,7 +8,6 @@ import { MessageType, ACCOUNT_POOL_CONTINUE_REMINDER } from '../../shared';
 import { withAccount } from '../features/account-manager';
 import { resetUsageCache } from './getUsage';
 import { resetAllUsageCache } from './getAllUsage';
-import { invalidateFableProbeCache } from '../features/fable-probe';
 import { clearAccountPoolRecovery, claimAccountPoolContinuation } from '../features/account-pool-recovery-store';
 
 export async function sendMessageHandler(
@@ -67,7 +66,6 @@ export async function sendMessageHandler(
         await withAccount(accountId, async () => {
           resetUsageCache();
           resetAllUsageCache();
-          invalidateFableProbeCache();
           connections.broadcastToAll(MessageType.ACCOUNTS_CHANGED, {});
           const proc = connections.getProcess(resolvedSessionId);
           if (proc) await restartClaudeSessionProcess(connections, resolvedSessionId, proc);

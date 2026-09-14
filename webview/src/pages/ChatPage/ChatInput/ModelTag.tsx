@@ -2,12 +2,10 @@ import { useEffect, useMemo } from 'react';
 import { Tag } from '@/pages/ChatPage/ChatInput/Tag';
 import { useChatStreamContext } from '@/contexts/ChatStreamContext';
 import { useCliConfig } from '@/contexts/CliConfigContext';
-import { useFableProbe } from '@/contexts/FableProbeContext';
 import { SWITCH_MODEL_EVENT } from '@/pages/ChatPage/ModelSwitchOverlay';
-import { DEFAULT_MODEL_ALIAS, resolveModelInfo, resolveModelLabel, toModelAlias, withFableFallback } from '@/types/models';
+import { DEFAULT_MODEL_ALIAS, resolveModelInfo, resolveModelLabel, toModelAlias } from '@/types/models';
 import { useCurrentModel } from '@/hooks/useCurrentModel';
 import { useModelSwitch } from '@/hooks/useModelSwitch';
-import { useVersionInfo } from '@/hooks/useVersionInfo';
 import { LoadedMessageType } from '@/types';
 import type { ModelInfo } from '@/types/slashCommand';
 import { useTranslation } from '@/i18n';
@@ -46,14 +44,12 @@ export function ModelTag() {
   const { controlResponse } = useCliConfig();
   const switchModel = useModelSwitch();
   const currentModel = useCurrentModel();
-  const { cliVersion } = useVersionInfo();
-  const { probedAvailable } = useFableProbe();
 
   // Memoized on the CLI response so the fallback-augmented array keeps a stable
   // reference across renders (the rotate effect below depends on `models`).
   const models: ModelInfo[] = useMemo(
-    () => withFableFallback(controlResponse?.response?.response?.models ?? [], cliVersion, probedAvailable),
-    [controlResponse, cliVersion, probedAvailable],
+    () => controlResponse?.response?.response?.models ?? [],
+    [controlResponse],
   );
 
   useEffect(() => {

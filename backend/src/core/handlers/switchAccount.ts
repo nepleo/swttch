@@ -6,7 +6,6 @@ import { invalidateAccountPoolSelection } from '../features/account-pool-recover
 import { switchToAccount } from '../features/account-manager';
 import { resetUsageCache } from './getUsage';
 import { resetAllUsageCache } from './getAllUsage';
-import { invalidateFableProbeCache } from '../features/fable-probe';
 
 /**
  * SWITCH_ACCOUNT — make a saved account the live one (swap the CLI credential
@@ -36,7 +35,6 @@ export async function switchAccountHandler(
     const account = await switchToAccount(id);
     resetUsageCache();
     resetAllUsageCache();
-    invalidateFableProbeCache(); // Fable availability is per-account — drop the stale verdict.
     connections.sendTo(connectionId, MessageType.ACK, {
       requestId: message.requestId,
       status: 'ok',

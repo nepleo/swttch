@@ -1,5 +1,4 @@
 import type { ModelInfo } from './slashCommand';
-import { isAtLeastVersion } from '@/utils/compareVersions';
 
 /**
  * CLI model alias ("default", "opus", "sonnet", "haiku", "fable") used by the
@@ -58,93 +57,6 @@ export function modelInfoAlias(info: ModelInfo): string {
  */
 function alphanumericKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, '');
-}
-
-/**
- * Fable 5 support (issue #153).
- *
- * Fable 5 is now a permanent GA model, but whether the CLI lists it in the
- * `initialize` model catalog is decided per-account by the server
- * (`additionalModelOptionsCache` entitlement), NOT by CLI version — so many
- * accounts never see it in the picker even though `--model fable` activates it
- * fine. To honour CLI equivalence ("what works in the CLI works in the GUI")
- * we surface Fable as a fallback item when the account's catalog omits it,
- * gated on a real per-account availability probe (see `withFableFallback` /
- * `FableProbeContext`) rather than any promotional date window.
- */
-
-/**
- * Minimum Claude Code CLI version that knows the Fable model (`--model fable`).
- * Fable landed in CLI 2.1.170; older CLIs don't recognise it, so we must not
- * surface a fallback they can't select.
- */
-export const FABLE_MIN_CLI_VERSION = '2.1.170';
-
-/** Whether the running CLI is new enough to select Fable. */
-export function isFableSupportedCli(cliVersion: string | null | undefined): boolean {
-  return isAtLeastVersion(cliVersion, FABLE_MIN_CLI_VERSION);
-}
-
-/**
- * Hardcoded Fable item appended only when the CLI-provided catalog lacks Fable.
- * `value: 'fable'` matches the verified `--model fable` / `set_model` path.
- * Structure mirrors the CLI's own rows verbatim — `displayName: 'Fable'` (the
- * short name) and `description: 'Fable 5 · …'` (name+version, then blurb). The
- * leading "Fable 5 ·" matters: `resolveModelLabel` reads the model label out of
- * the description's first "·" segment, so without it the label degrades to the
- * full blurb ("Most capable for your…") instead of "Fable 5".
- */
-export const FABLE_FALLBACK_MODEL: ModelInfo = {
-  value: 'fable',
-  displayName: 'Fable',
-  description: 'Fable 5 · Most capable for your hardest and longest-running tasks',
-};
-
-/**
- * Augment the CLI's model list with a Fable fallback when the account's catalog
- * omits it — a merge, not a static override. If the CLI already lists Fable
- * (entitled account), that dynamic entry wins and the hardcoded item is skipped
- * via alias-based dedup, so this quietly no-ops once Fable is served natively.
- * A CLI-served Fable is always respected — the server, not us, decides
- * availability.
- *
- * Fable is now a permanent GA model, but the server still decides per-account
- * whether it appears in the `initialize` catalog: many accounts that can run
- * `--model fable` (on prepaid usage credits) never see it listed. There is no
- * date window to lean on anymore, so the only reliable signal for offering the
- * hardcoded fallback is a real per-account availability probe
- * (`probedAvailable === true`; see `fable-probe` / `FableProbeContext`).
- * `false` means the probe rejected this account and `null`/`undefined` means it
- * hasn't resolved yet — in both cases we do not offer the fallback, so a model
- * the account can't select never surfaces.
- *
- * The fallback is additionally gated on the CLI version: Fable landed in CLI
- * 2.1.170 (`FABLE_MIN_CLI_VERSION`), and older CLIs don't recognise
- * `--model fable`, so offering the fallback to them would surface a model the
- * user can't actually select. The "CLI already serves it" dedup check runs
- * BEFORE the version gate on purpose: an entitled account whose catalog carries
- * Fable is necessarily on a CLI new enough to serve it, so we always trust that
- * dynamic entry regardless of the parsed version string.
- *
- * An empty list is left untouched: length 0 means the CLI config hasn't loaded
- * yet, and consumers treat that as "loading" (hide the tag / show a spinner).
- * Injecting Fable there would defeat that, so only a loaded list is augmented.
- */
-export function withFableFallback(
-  models: ModelInfo[],
-  cliVersion: string | null | undefined,
-  probedAvailable?: boolean | null,
-): ModelInfo[] {
-  if (models.length === 0) return models;
-  if (models.some((m) => modelInfoAlias(m) === 'fable')) return models; // CLI already serves it — always trust, regardless of version (a custom catalog names it in the description)
-  if (!isFableSupportedCli(cliVersion)) return models; // an old CLI can't select Fable, so don't offer the fallback
-  if (probedAvailable !== true) return models; // only when a real probe confirmed this account
-  // Fable 5 is the most capable model, so rank it at the top of the concrete
-  // choices — just below the "default" item and above Opus/Sonnet/Haiku,
-  // mirroring how the CLI orders a natively-served Fable ahead of them.
-  const defaultIdx = models.findIndex((m) => m.value === DEFAULT_MODEL_ALIAS);
-  const at = defaultIdx >= 0 ? defaultIdx + 1 : 0;
-  return [...models.slice(0, at), FABLE_FALLBACK_MODEL, ...models.slice(at)];
 }
 
 /**

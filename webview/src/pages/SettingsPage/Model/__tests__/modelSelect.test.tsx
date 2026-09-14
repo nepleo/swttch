@@ -30,12 +30,6 @@ vi.mock('@/contexts/ClaudeSettingsContext', () => ({
 vi.mock('@/contexts/CliConfigContext', () => ({
   useCliConfig: () => ({ controlResponse: { response: { response: { models: mockModels } } } }),
 }));
-vi.mock('@/hooks/useVersionInfo', () => ({ useVersionInfo: () => ({ cliVersion: '2.1.170' }) }));
-vi.mock('@/contexts/WorkingDirContext', () => ({ useWorkingDir: () => ({ workingDirectory: '/tmp' }) }));
-vi.mock('@/contexts/FableProbeContext', () => ({
-  useFableProbe: () => ({ probedAvailable: null, probeFableAvailability: vi.fn() }),
-  shouldProbeFable: () => false,
-}));
 
 import { ModelSettings } from '../index';
 

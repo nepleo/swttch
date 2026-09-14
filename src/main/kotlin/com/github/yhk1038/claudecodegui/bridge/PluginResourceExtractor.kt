@@ -506,7 +506,7 @@ class PluginResourceExtractor(
     }
 
     companion object {
-        const val PLUGIN_ID = "com.github.yhk1038.claude-code-gui"
+        const val PLUGIN_ID = "com.github.yhk1038.claude-code-gui-bedrock"
         private const val ROOT_DIR_NAME = "claude-code-gui"
         private const val WEBVIEW_SUBDIR = "webview"
         private const val BACKEND_SUBDIR = "backend"

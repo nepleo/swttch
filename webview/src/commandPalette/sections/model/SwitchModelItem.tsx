@@ -3,17 +3,13 @@ import { i18n } from '@/i18n';
 import { enKeyword } from '../../enKeyword';
 import { SWITCH_MODEL_EVENT } from '@/pages/ChatPage/ModelSwitchOverlay';
 import { useCliConfig } from '@/contexts/CliConfigContext';
-import { useFableProbe } from '@/contexts/FableProbeContext';
 import { useCurrentModel } from '@/hooks/useCurrentModel';
-import { useVersionInfo } from '@/hooks/useVersionInfo';
-import { resolveModelInfo, withFableFallback } from '@/types/models';
+import { resolveModelInfo } from '@/types/models';
 
 const SwitchModelValue = () => {
   const { controlResponse } = useCliConfig();
   const currentModel = useCurrentModel();
-  const { cliVersion } = useVersionInfo();
-  const { probedAvailable } = useFableProbe();
-  const models = withFableFallback(controlResponse?.response?.response?.models ?? [], cliVersion, probedAvailable);
+  const models = controlResponse?.response?.response?.models ?? [];
   // Unidentified models show their raw value rather than "Default" (issue #217).
   const info = resolveModelInfo(models, currentModel, { allowDefaultFallback: false });
   const text = info?.displayName ?? currentModel;

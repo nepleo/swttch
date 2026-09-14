@@ -160,7 +160,7 @@ kover {
 
 intellijPlatform {
     pluginConfiguration {
-        id = "com.github.yhk1038.claude-code-gui"
+        id = "com.github.yhk1038.claude-code-gui-bedrock"
         name = "Claude Code with GUI"
         version = project.version.toString()
         description = providers.provider {

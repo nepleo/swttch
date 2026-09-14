@@ -10,5 +10,4 @@ export { AuthProvider, useAuthContext } from './AuthContext';
 export { ChatInputFocusProvider, useChatInputFocus } from './ChatInputFocusContext';
 export { WorkingDirProvider, useWorkingDir } from './WorkingDirContext';
 export { CliConfigProvider, useCliConfig } from './CliConfigContext';
-export { FableProbeProvider, useFableProbe, shouldProbeFable } from './FableProbeContext';
 export * from './ChatInputStateContext';

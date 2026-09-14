@@ -3,7 +3,6 @@ import { SettingSection, SettingRow } from '../common';
 import { APP_NAME } from '@/config/app';
 import { useVersionInfo } from '@/hooks/useVersionInfo';
 import { useTranslation } from '@/i18n';
-import { CliUpdateControl } from './CliUpdateControl';
 
 export function AboutSettings() {
   const { t } = useTranslation('settings');
@@ -22,7 +21,6 @@ export function AboutSettings() {
 
         <SettingRow label={t('about.versionInfo.cliVersion', { appName: APP_NAME })}>
           <div className="flex items-center gap-2">
-            <CliUpdateControl />
             <span className="text-sm text-text-secondary">{cliVersion ?? t('about.versionInfo.notDetected')}</span>
             <button
               onClick={refresh}

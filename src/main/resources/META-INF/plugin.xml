@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>com.github.yhk1038.claude-code-gui</id>
+    <id>com.github.yhk1038.claude-code-gui-bedrock</id>
     <name>Claude Code GUI</name>
     <vendor email="yhkks1038@gmail.com" url="https://github.com/Swttch">Swttch</vendor>
 

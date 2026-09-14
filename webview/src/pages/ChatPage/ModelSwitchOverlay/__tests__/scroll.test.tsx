@@ -36,12 +36,6 @@ vi.mock('@/contexts/CliConfigContext', () => ({
 vi.mock('@/contexts/SessionContext', () => ({
   useSessionContext: () => ({ currentSessionId: null }),
 }));
-vi.mock('@/contexts/WorkingDirContext', () => ({ useWorkingDir: () => ({ workingDirectory: '/tmp' }) }));
-vi.mock('@/contexts/FableProbeContext', () => ({
-  useFableProbe: () => ({ probedAvailable: null, probeFableAvailability: vi.fn() }),
-  shouldProbeFable: () => false,
-}));
-vi.mock('@/hooks/useVersionInfo', () => ({ useVersionInfo: () => ({ cliVersion: '2.1.170' }) }));
 vi.mock('@/hooks/useBridge', () => ({
   useBridge: () => ({ send: () => ({ then: () => ({ catch: () => undefined }) }) }),
 }));

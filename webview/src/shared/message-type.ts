@@ -137,10 +137,6 @@ export enum MessageType {
    *  running, or that refuses, leaves the spawn-time `--permission-mode` path
    *  to carry the change on the next message. inbound webview→backend */
   SET_PERMISSION_MODE = 'SET_PERMISSION_MODE',
-  /** Probe whether the current account can select Fable via a real (cached)
-   *  `--model fable` call. Surfaces Fable in the picker when the per-account
-   *  catalog omits it but the model still works. inbound webview→backend */
-  PROBE_FABLE_AVAILABILITY = 'PROBE_FABLE_AVAILABILITY',
   /** Read the CLI control configuration (slash commands, etc.). */
   GET_CLI_CONFIG = 'GET_CLI_CONFIG',
 

@@ -2,17 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import { useChatStreamContext } from '@/contexts/ChatStreamContext';
 import { useCliConfig } from '@/contexts/CliConfigContext';
-import { useFableProbe, shouldProbeFable } from '@/contexts/FableProbeContext';
-import { useWorkingDir } from '@/contexts/WorkingDirContext';
 import { useCurrentModel } from '@/hooks/useCurrentModel';
 import { useModelSwitch } from '@/hooks/useModelSwitch';
-import { useVersionInfo } from '@/hooks/useVersionInfo';
 import { LoadedMessageType } from '@/types';
 import {
   findModelForSelection,
   resolveModelInfo,
   resolveModelLabel,
-  withFableFallback,
 } from '@/types/models';
 import type { ModelInfo } from '@/types/slashCommand';
 import { useTranslation } from '@/i18n';
@@ -48,31 +44,15 @@ export function ModelSwitchOverlay({ onClose, autoSelectQuery }: ModelSwitchOver
   const switchModel = useModelSwitch();
   const { controlResponse } = useCliConfig();
   const currentModel = useCurrentModel();
-  const { cliVersion } = useVersionInfo();
-  const { probedAvailable, probeFableAvailability } = useFableProbe();
-  const { workingDirectory } = useWorkingDir();
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const rawModels: ModelInfo[] = controlResponse?.response?.response?.models ?? [];
-  const models: ModelInfo[] = withFableFallback(rawModels, cliVersion, probedAvailable);
+  const models: ModelInfo[] = controlResponse?.response?.response?.models ?? [];
   // No default fallback: if we can't identify the running model, no row is
   // ticked — better than ticking "Default" and claiming a selection the user
   // never made (issue #217).
   const currentInfo = resolveModelInfo(models, currentModel, { allowDefaultFallback: false });
   const isMac = navigator.platform.toUpperCase().includes('MAC');
 
-  // Past the promo window the catalog omits Fable for many accounts that can
-  // still run `--model fable`, so probe (once, non-blocking) whether THIS account
-  // keeps access and, if so, re-offer it. The probe is cached backend-side, so an
-  // open per session is cheap. Inside the window, or when the catalog already
-  // serves Fable, `shouldProbeFable` returns false and we skip it.
-  const shouldProbe = shouldProbeFable(rawModels, cliVersion);
-  const probeFiredRef = useRef(false);
-  useEffect(() => {
-    if (!shouldProbe || probeFiredRef.current) return;
-    probeFiredRef.current = true;
-    void probeFableAvailability(workingDirectory ?? undefined);
-  }, [shouldProbe, workingDirectory, probeFableAvailability]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

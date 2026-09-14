@@ -11,7 +11,6 @@ vi.mock('../../features/account-manager', () => ({ withAccount: vi.fn(async (_id
 vi.mock('../../claude-process', () => ({ ensureClaudeProcess: vi.fn(), restartClaudeSessionProcess: vi.fn(), sendMessageToProcess: vi.fn() }));
 vi.mock('../../features/account-pool-recovery-store', () => ({ claimAccountPoolContinuation: vi.fn(async () => true), clearAccountPoolRecovery: vi.fn() }));
 vi.mock('../../features/telemetry', () => ({ trackEvent: vi.fn() }));
-vi.mock('../../features/fable-probe', () => ({ invalidateFableProbeCache: vi.fn() }));
 vi.mock('../getUsage', () => ({ resetUsageCache: vi.fn() }));
 vi.mock('../getAllUsage', () => ({ resetAllUsageCache: vi.fn() }));
 const connections = new ConnectionManager(true);

@@ -13,7 +13,6 @@ import { SettingKey, NO_PAGINATION_LIMIT } from '@/types/settings';
 import { ClaudeSettingsProvider, useClaudeSettings } from './ClaudeSettingsContext';
 import { AuthProvider } from './AuthContext';
 import { CliConfigProvider } from './CliConfigContext';
-import { FableProbeProvider } from './FableProbeContext';
 import { ChatInputFocusProvider } from './ChatInputFocusContext';
 import { ChatInputStateProvider } from './ChatInputStateContext';
 import { IdeSelectionProvider } from './IdeSelectionContext';
@@ -291,7 +290,6 @@ export function AppProviders({ children }: AppProvidersProps) {
           <ApiProvider>
             <WorkingDirProvider>
               <CliConfigProvider>
-              <FableProbeProvider>
               <SettingsProvider>
                 <ZoomProvider>
                 <ClaudeSettingsProvider>
@@ -309,7 +307,6 @@ export function AppProviders({ children }: AppProvidersProps) {
                 </ClaudeSettingsProvider>
                 </ZoomProvider>
               </SettingsProvider>
-              </FableProbeProvider>
             </CliConfigProvider>
             </WorkingDirProvider>
           </ApiProvider>
