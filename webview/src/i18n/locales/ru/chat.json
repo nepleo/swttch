@@ -60,6 +60,7 @@
     "contextWindow": {
       "remaining": "Осталось {{percent}}% контекста до авто-сжатия.",
       "tokensUsed": "Использовано токенов: {{tokens}}",
+      "maxContext": "Макс. контекст: {{size}}",
       "clickToCompact": "Нажмите, чтобы сжать сейчас.",
       "used": "Использовано {{percent}}%"
     },

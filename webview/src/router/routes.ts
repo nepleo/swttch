@@ -430,8 +430,7 @@ export const SETTINGS_SUB_ROUTES: Route[] = [
   Route.SETTINGS_TUNNEL,
   Route.SETTINGS_RELEASES,
   Route.SETTINGS_ABOUT,
-  // Sponsor sits last — it's a support/marketing entry, not a settings group.
-  Route.SETTINGS_SPONSOR,
+  // Bedrock custom: Sponsor settings page is hidden (entitlement is always on).
 ];
 
 /**

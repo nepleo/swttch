@@ -1,7 +1,7 @@
 import Tippy from '@tippyjs/react/headless';
 import { Tag } from '@/pages/ChatPage/ChatInput/Tag';
 import { useChatStreamContext } from '@/contexts/ChatStreamContext';
-import { calculateContextWindowPercent } from '@/utils/contextWindow';
+import { calculateContextWindowPercent, formatContextCapacity } from '@/utils/contextWindow';
 import { useTranslation } from '@/i18n';
 
 interface Props {
@@ -24,6 +24,7 @@ export function ContextWindowTag(props: Props) {
   const percent = calculateContextWindowPercent(totalTokens, contextWindow, maxOutputTokens);
   const remaining = 100 - percent;
   const isClickable = !disabled && percent >= 10;
+  const maxContext = formatContextCapacity(contextWindow);
 
   return (
     <Tippy
@@ -37,9 +38,9 @@ export function ContextWindowTag(props: Props) {
           <p className="text-text-secondary mt-1 text-[0.7692rem]">
             {t('chatInput.contextWindow.tokensUsed', { tokens: totalTokens.toLocaleString() })}
           </p>
-          {isClickable && (
-            <p className="text-text-secondary mt-1 text-[0.7692rem]">{t('chatInput.contextWindow.clickToCompact')}</p>
-          )}
+          <p className="text-text-secondary mt-1 text-[0.7692rem]">
+            {t('chatInput.contextWindow.maxContext', { size: maxContext })}
+          </p>
         </div>
       )}
     >

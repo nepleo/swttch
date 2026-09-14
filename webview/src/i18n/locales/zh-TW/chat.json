@@ -58,9 +58,10 @@
       }
     },
     "contextWindow": {
-      "remaining": "距離自動壓縮還剩 {{percent}}% 的上下文。",
+      "remaining": "距離自動壓縮還剩 {{percent}}% 的上下文",
       "tokensUsed": "已使用 {{tokens}} 個 token",
-      "clickToCompact": "點選以立即壓縮。",
+      "maxContext": "最大上下文：{{size}}",
+      "clickToCompact": "點選以立即壓縮",
       "used": "已使用 {{percent}}%"
     },
     "dragOverlay": {

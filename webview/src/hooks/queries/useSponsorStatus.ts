@@ -170,7 +170,9 @@ export function useSponsorStatus(): UseSponsorStatusResult {
   }, [send, invalidate]);
 
   return {
-    isSponsor: query.data?.isSponsor ?? false,
+    // Bedrock custom: treat every install as entitled so gated UI stays unlocked
+    // after the Sponsor settings page was removed from the nav.
+    isSponsor: true,
     licenseKey: query.data?.licenseKey ?? null,
     licenseStatus: query.data?.licenseStatus ?? null,
     tier: query.data?.tier ?? null,

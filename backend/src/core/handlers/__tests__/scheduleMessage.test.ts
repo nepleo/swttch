@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { ConnectionManager } from '../../../ws/connection-manager';
 import type { Bridge } from '../../../bridge/bridge-interface';
 import type { IPCMessage } from '../../types';
-import { MessageType, ScheduledMessageKind, ErrorCode } from '../../../shared';
+import { MessageType, ScheduledMessageKind } from '../../../shared';
 
 vi.mock('../../features/account-store', () => ({ readRegistry: vi.fn(async () => ({ current: 'acc-current' })) }));
 vi.mock('../../features/account-pool-recovery-store', () => ({ readAccountPoolRecovery: vi.fn(async () => null) }));
@@ -82,18 +82,18 @@ describe('scheduleMessageHandler sponsor gate', () => {
     expect(scheduleMessage).not.toHaveBeenCalled();
   });
 
-  it('rejects a non-sponsor without creating a reservation', async () => {
+  it('creates a reservation even without a sponsor license (Bedrock custom)', async () => {
     getSponsorStatus.mockResolvedValue({ isSponsor: false });
     const connections = makeConnections();
 
     await scheduleMessageHandler('conn-1', makeMessage(), connections, bridge);
 
-    expect(scheduleMessage).not.toHaveBeenCalled();
-    expect(connections.sendTo).toHaveBeenCalledWith('conn-1', MessageType.ERROR, {
-      requestId: 'req-1',
-      error: 'Sponsor-only feature',
-      errorCode: ErrorCode.SPONSOR_REQUIRED,
-    });
+    expect(scheduleMessage).toHaveBeenCalledTimes(1);
+    expect(connections.sendTo).toHaveBeenCalledWith(
+      'conn-1',
+      MessageType.ACK,
+      expect.objectContaining({ requestId: 'req-1' }),
+    );
   });
 
   it('creates a reservation (stamped with the requesting tab panelId) and ACKs for a sponsor', async () => {
@@ -136,18 +136,18 @@ describe('scheduleMessageHandler sponsor gate', () => {
     } as unknown as IPCMessage;
   }
 
-  it('rejects a non-sponsor update without editing', async () => {
+  it('edits a reservation even without a sponsor license (Bedrock custom)', async () => {
     getSponsorStatus.mockResolvedValue({ isSponsor: false });
     const connections = makeConnections();
 
     await updateScheduledMessageHandler('conn-1', makeUpdateMessage(), connections, bridge);
 
-    expect(editScheduledMessage).not.toHaveBeenCalled();
-    expect(connections.sendTo).toHaveBeenCalledWith('conn-1', MessageType.ERROR, {
-      requestId: 'req-u',
-      error: 'Sponsor-only feature',
-      errorCode: ErrorCode.SPONSOR_REQUIRED,
-    });
+    expect(editScheduledMessage).toHaveBeenCalled();
+    expect(connections.sendTo).toHaveBeenCalledWith(
+      'conn-1',
+      MessageType.ACK,
+      expect.objectContaining({ requestId: 'req-u' }),
+    );
   });
 
   it('edits the reservation (message + sendAt) and ACKs for a sponsor', async () => {

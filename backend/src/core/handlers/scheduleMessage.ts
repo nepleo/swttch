@@ -2,7 +2,7 @@ import type { ConnectionManager } from '../../ws/connection-manager';
 import type { Bridge } from '../../bridge/bridge-interface';
 import type { IPCMessage } from '../types';
 import { randomUUID } from 'crypto';
-import { MessageType, ScheduledMessageKind, ErrorCode, type ScheduledMessage } from '../../shared';
+import { MessageType, ScheduledMessageKind, type ScheduledMessage } from '../../shared';
 import {
   scheduleMessage,
   cancelSchedule,
@@ -11,7 +11,6 @@ import {
 import { readSchedulesForSession } from '../features/scheduled-messages-store';
 import { readRegistry } from '../features/account-store';
 import { readAccountPoolRecovery } from '../features/account-pool-recovery-store';
-import { getSponsorStatus } from '../features/license';
 
 /**
  * Handlers for the scheduled-message ("send later") engine:
@@ -45,19 +44,7 @@ export async function scheduleMessageHandler(
     return;
   }
 
-  // Server-side sponsor gate: scheduling a message is a sponsor-only feature
-  // (both auto-resume and user-created "schedule send" go through here). The
-  // webview gates its controls too, but reject here so a non-sponsor cannot
-  // create a reservation by sending SCHEDULE_MESSAGE directly over IPC.
-  const sponsor = await getSponsorStatus();
-  if (!sponsor.isSponsor) {
-    connections.sendTo(connectionId, MessageType.ERROR, {
-      requestId: message.requestId,
-      error: 'Sponsor-only feature',
-      errorCode: ErrorCode.SPONSOR_REQUIRED,
-    });
-    return;
-  }
+  // Bedrock custom: scheduling is not sponsor-gated.
 
   // Record which tab set the reservation (read from the server-side client
   // record, not the payload, so it always reflects the actual requesting tab).
@@ -146,15 +133,7 @@ export async function updateScheduledMessageHandler(
     return;
   }
 
-  const sponsor = await getSponsorStatus();
-  if (!sponsor.isSponsor) {
-    connections.sendTo(connectionId, MessageType.ERROR, {
-      requestId: message.requestId,
-      error: 'Sponsor-only feature',
-      errorCode: ErrorCode.SPONSOR_REQUIRED,
-    });
-    return;
-  }
+  // Bedrock custom: editing a reservation is not sponsor-gated.
 
   await editScheduledMessage(
     sessionId,

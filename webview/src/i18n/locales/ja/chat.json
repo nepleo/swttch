@@ -60,6 +60,7 @@
     "contextWindow": {
       "remaining": "自動圧縮まで残り {{percent}}% のコンテキストがあります。",
       "tokensUsed": "{{tokens}} トークンを使用",
+      "maxContext": "最大コンテキスト: {{size}}",
       "clickToCompact": "クリックして今すぐ圧縮します。",
       "used": "{{percent}}% 使用済み"
     },

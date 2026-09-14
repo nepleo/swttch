@@ -16,7 +16,6 @@ import { AccountSettings } from './Account';
 import { BrowserSettings } from './Browser';
 import { IdeSettings } from './Ide';
 import { PrivacySettings } from './Privacy';
-import { SponsorSettings } from './Sponsor';
 
 interface SettingsPageProps {
   /**
@@ -77,7 +76,8 @@ export function SettingsPage({ asOverlay = false }: SettingsPageProps = {}) {
       case Route.SETTINGS_ACCOUNT:
         return <AccountSettings />;
       case Route.SETTINGS_SPONSOR:
-        return <SponsorSettings />;
+        // Bedrock custom: sponsor page removed from nav; deep links land on General.
+        return <GeneralSettings />;
       case Route.SETTINGS_ABOUT:
         return <AboutSettings />;
       case Route.SETTINGS_USAGE:

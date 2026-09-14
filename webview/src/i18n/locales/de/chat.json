@@ -60,6 +60,7 @@
     "contextWindow": {
       "remaining": "{{percent}}% des Kontexts verbleiben bis zur automatischen Komprimierung.",
       "tokensUsed": "{{tokens}} Tokens verwendet",
+      "maxContext": "Maximales Kontextfenster: {{size}}",
       "clickToCompact": "Klicken, um jetzt zu komprimieren.",
       "used": "{{percent}}% verwendet"
     },

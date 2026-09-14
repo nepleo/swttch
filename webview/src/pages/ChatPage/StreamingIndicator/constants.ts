@@ -1,9 +1,12 @@
 import { i18n } from '@/i18n';
 
-// 83개 동사 목록 (i18n) — 렌더 시점마다 조회해 언어 전환에도 즉시 반응하도록
-// 모듈 스코프 상수 대신 getter 함수로 제공한다.
+// Claude Code 원판 스피너 동사(영어 그대로). 인터페이스 언어와 무관하게
+// 항상 en 카탈로그를 쓴다 — 번역하면 말장난이 깨진다.
 export function getVerbs(): readonly string[] {
-    return i18n.t('chat:streamingIndicator.verbs', { returnObjects: true }) as string[];
+    return i18n.t('chat:streamingIndicator.verbs', {
+        returnObjects: true,
+        lng: 'en',
+    }) as string[];
 }
 
 // 아이콘 프레임 (ping-pong)

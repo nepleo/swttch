@@ -60,6 +60,7 @@
     "contextWindow": {
       "remaining": "{{percent}}٪ از زمینه تا فشرده‌سازی خودکار باقی مانده است.",
       "tokensUsed": "{{tokens}} توکن استفاده شده",
+      "maxContext": "حداکثر زمینه: {{size}}",
       "clickToCompact": "برای فشرده‌سازی اکنون کلیک کنید.",
       "used": "{{percent}}٪ استفاده شده"
     },

@@ -60,6 +60,7 @@
     "contextWindow": {
       "remaining": "{{percent}}% of context remaining until auto-compact.",
       "tokensUsed": "{{tokens}} tokens used",
+      "maxContext": "Max context: {{size}}",
       "clickToCompact": "Click to compact now.",
       "used": "{{percent}}% used"
     },

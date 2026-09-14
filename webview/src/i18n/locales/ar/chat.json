@@ -60,6 +60,7 @@
     "contextWindow": {
       "remaining": "{{percent}}% من السياق متبقٍّ حتى الضغط التلقائي.",
       "tokensUsed": "تم استخدام {{tokens}} رمز",
+      "maxContext": "الحد الأقصى للسياق: {{size}}",
       "clickToCompact": "انقر للضغط الآن.",
       "used": "{{percent}}% مستخدَم"
     },
