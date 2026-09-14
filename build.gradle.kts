@@ -188,6 +188,12 @@ intellijPlatform {
             untilBuild = provider { null }
         }
         changeNotes = """
+            <h3>0.30.6 - Context gauge at startup and English composer hint</h3>
+            <ul>
+                <li>Show 已使用 0% immediately; estimate context window from the model id on system/init</li>
+                <li>Restore usage percent when reopening a session that already has token usage</li>
+                <li>Replace the unused ⌘ Esc placeholder with an English @ / Enter hint in every locale</li>
+            </ul>
             <h3>0.30.5 - Context tooltip, English verbs, no Prompt Library</h3>
             <ul>
                 <li>Show max context on hover of the usage tag; keep the percent label (including 0%)</li>

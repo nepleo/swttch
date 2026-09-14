@@ -7,6 +7,7 @@ import { parsePartialJson } from '../utils/parsePartialJson';
 import { MessageType } from '@/shared';
 import { parseControlRequestResult } from './controlRequestResult';
 import type { ControlRequestResult, ControlResponseEvent } from './controlRequestResult';
+import { estimateContextWindowFromModel } from '../utils/contextWindow';
 
 /** Re-export for backwards compatibility */
 export type { LoadedMessageDto as LoadedMessage } from '../types';
@@ -586,10 +587,10 @@ export function useChatStream(options: UseChatStreamOptions): UseChatStreamRetur
               + (usage.cache_creation_input_tokens ?? 0)
               + (usage.cache_read_input_tokens ?? 0)
               + (usage.output_tokens ?? 0),
-            // 세션 로드 시엔 modelUsage(result 전용)에 접근할 수 없어 실제 contextWindow를
-            // 모른다. 0으로 두면 게이지는 첫 result 이후 정확한 값으로 표시된다. 임의의 200k로
-            // 넣으면 1M 모델에서 5배 부풀려진 사용률을 보이므로 금지.
-            contextWindow: 0,
+            // Session reload has no result.modelUsage yet. Estimate from the
+            // running model id the same way Claude Code's TUI does at startup —
+            // never invent a bare 200k when the id says [1m].
+            contextWindow: estimateContextWindowFromModel(currentModelRef.current),
             maxOutputTokens: 0,
           });
           break;
@@ -721,6 +722,20 @@ export function useChatStream(options: UseChatStreamOptions): UseChatStreamRetur
           // system/init은 CLI spawn당 한 번만 오며 정확한 모델 키(예: `claude-opus-4-8[1m]`)를
           // 담는다. result의 modelUsage 조회 키로 재사용한다.
           if (typeof cliEvent.model === 'string') currentModelRef.current = cliEvent.model;
+          // Seed the gauge immediately (0% + estimated capacity). Authoritative
+          // contextWindow arrives later on result.modelUsage; until then mirror
+          // Claude Code's TUI which already knows the window from the model id.
+          const estimated = estimateContextWindowFromModel(
+            typeof cliEvent.model === 'string' ? cliEvent.model : null,
+          );
+          setContextWindowUsage((prev) => ({
+            totalTokens: prev?.totalTokens ?? 0,
+            // Keep a real modelUsage value if we already have one (e.g. resume).
+            contextWindow: prev?.contextWindow && prev.contextWindow > 0
+              ? prev.contextWindow
+              : estimated,
+            maxOutputTokens: prev?.maxOutputTokens ?? 0,
+          }));
         }
         // Live thinking-token estimate: the CLI emits cumulative counts on a
         // dedicated `system/thinking_tokens` event (no block index — always the
@@ -969,7 +984,9 @@ export function useChatStream(options: UseChatStreamOptions): UseChatStreamRetur
               + (assistantUsage.cache_creation_input_tokens ?? 0)
               + (assistantUsage.cache_read_input_tokens ?? 0)
               + (assistantUsage.output_tokens ?? 0),
-            contextWindow: prev?.contextWindow ?? 0,
+            contextWindow: prev?.contextWindow && prev.contextWindow > 0
+              ? prev.contextWindow
+              : estimateContextWindowFromModel(currentModelRef.current),
             maxOutputTokens: prev?.maxOutputTokens ?? 0,
           }));
         }

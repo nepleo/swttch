@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "Mettre un autre message en file d'attente...",
-      "focusHint": "⌘ Échap pour focaliser ou défocaliser Claude"
+      "hint": "@ to reference files, / for commands, {{send}} to send"
     },
     "ariaLabel": "Message à Claude",
     "autoModeFallback": "Le mode automatique n'est pas disponible ici — utilisation du mode d'autorisation par défaut à la place.",

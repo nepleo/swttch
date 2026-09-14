@@ -14,11 +14,12 @@ export function ContextWindowTag(props: Props) {
   const { t } = useTranslation('chat');
   const { contextWindowUsage } = useChatStreamContext();
 
-  if (!contextWindowUsage) return null;
+  // Startup / empty session: no CLI usage yet → still show 0%. The tag used to
+  // hide entirely while contextWindowUsage was null, which looked like a bug.
+  const totalTokens = contextWindowUsage?.totalTokens ?? 0;
+  const contextWindow = contextWindowUsage?.contextWindow ?? 0;
+  const maxOutputTokens = contextWindowUsage?.maxOutputTokens ?? 0;
 
-  const { totalTokens, contextWindow, maxOutputTokens } = contextWindowUsage;
-  // Unknown window (first result not in yet) still shows 0% so the tag is always
-  // visible once usage tracking has started; hover details wait for a real window.
   const percent = contextWindow > 0
     ? calculateContextWindowPercent(totalTokens, contextWindow, maxOutputTokens)
     : 0;

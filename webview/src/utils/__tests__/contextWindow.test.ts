@@ -1,5 +1,22 @@
 import { describe, expect, it } from 'vitest';
-import { formatContextCapacity } from '../contextWindow';
+import {
+  estimateContextWindowFromModel,
+  formatContextCapacity,
+  DEFAULT_CONTEXT_WINDOW,
+  EXTENDED_CONTEXT_WINDOW,
+} from '../contextWindow';
+
+describe('estimateContextWindowFromModel', () => {
+  it('reads the [1m] suffix as a 1M window', () => {
+    expect(estimateContextWindowFromModel('claude-opus-4-8[1m]')).toBe(EXTENDED_CONTEXT_WINDOW);
+    expect(estimateContextWindowFromModel('opus[1m]')).toBe(EXTENDED_CONTEXT_WINDOW);
+  });
+
+  it('falls back to 200k when the id has no 1m marker', () => {
+    expect(estimateContextWindowFromModel('claude-sonnet-4-5')).toBe(DEFAULT_CONTEXT_WINDOW);
+    expect(estimateContextWindowFromModel(null)).toBe(DEFAULT_CONTEXT_WINDOW);
+  });
+});
 
 describe('formatContextCapacity', () => {
   it('formats million-token windows as M', () => {

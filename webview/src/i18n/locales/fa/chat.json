@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "پیام دیگری در صف قرار دهید...",
-      "focusHint": "⌘ Esc برای فوکوس یا خروج از فوکوس روی Claude"
+      "hint": "@ to reference files, / for commands, {{send}} to send"
     },
     "ariaLabel": "پیام به Claude",
     "autoModeFallback": "حالت خودکار اینجا در دسترس نیست — به‌جای آن از حالت مجوز پیش‌فرض استفاده می‌شود.",

@@ -987,7 +987,22 @@ describe('useChatStream', () => {
       expect(result.current.contextWindowUsage?.maxOutputTokens).toBe(64_000);
     });
 
-    it('result 이전(assistant usage만 도착)에는 contextWindow가 0이다 — 임의의 200k로 부풀리지 않는다', () => {
+    it('system/init에서 모델 id로 contextWindow를 선추정한다 (result 전)', () => {
+      const { bridge, emit } = createMockBridge();
+      const { result } = renderHook(() => useChatStream({ bridge }));
+
+      act(() => {
+        emit(MessageType.CLI_EVENT, { type: 'system', subtype: 'init', model: MODEL });
+      });
+
+      expect(result.current.contextWindowUsage).toEqual({
+        totalTokens: 0,
+        contextWindow: 1_000_000,
+        maxOutputTokens: 0,
+      });
+    });
+
+    it('result 이전(assistant usage만 도착)에도 [1m] 모델은 1M으로 추정한다', () => {
       const { bridge, emit } = createMockBridge();
       const { result } = renderHook(() => useChatStream({ bridge }));
 
@@ -1006,9 +1021,8 @@ describe('useChatStream', () => {
         });
       });
 
-      // 아직 modelUsage를 못 받았으므로 게이지는 그려지지 않아야 한다(contextWindow 0).
       expect(result.current.contextWindowUsage?.totalTokens).toBe(500_000);
-      expect(result.current.contextWindowUsage?.contextWindow).toBe(0);
+      expect(result.current.contextWindowUsage?.contextWindow).toBe(1_000_000);
     });
   });
 

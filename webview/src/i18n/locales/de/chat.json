@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "Weitere Nachricht in die Warteschlange...",
-      "focusHint": "⌘ Esc, um Claude zu fokussieren oder Fokus zu entfernen"
+      "hint": "@ to reference files, / for commands, {{send}} to send"
     },
     "ariaLabel": "Nachricht an Claude",
     "autoModeFallback": "Der Auto-Modus ist hier nicht verfügbar — der Standard-Berechtigungsmodus wird stattdessen verwendet.",
