@@ -13,8 +13,7 @@
     "clearConversation": "Unterhaltung löschen",
     "resumeConversation": "Unterhaltung fortsetzen",
     "showBackgroundTasks": "Workflow: Hintergrundaufgaben anzeigen",
-    "scheduleSend": "Nachricht planen...",
-    "promptLibrary": "Prompt-Bibliothek"
+    "scheduleSend": "Nachricht planen..."
   },
   "scheduleSend": {
     "title": "Nachricht planen",

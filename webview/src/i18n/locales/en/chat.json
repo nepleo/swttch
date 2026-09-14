@@ -87,7 +87,7 @@
     },
     "placeholder": {
       "queueMessage": "Queue another message...",
-      "hint": "@ to reference files, / for commands, !! to insert prompts, {{send}} to send"
+      "focusHint": "⌘ Esc to focus or unfocus Claude"
     },
     "ariaLabel": "Message Claude",
     "autoModeFallback": "Auto mode isn't available here — using the default permission mode instead.",
@@ -116,16 +116,6 @@
         "installFailed": "Could not install the voice input tool"
       },
       "help": "Help"
-    },
-    "promptDropdown": {
-      "loading": "Loading…",
-      "noPrompts": "No saved prompts",
-      "createPrompt": "Create prompt",
-      "scopeProject": "Project",
-      "scopeGlobal": "Global",
-      "closeAriaLabel": "Close prompt library",
-      "editPrompt": "Edit",
-      "deletePrompt": "Delete"
     }
   },
   "sessionHeader": {

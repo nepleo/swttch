@@ -13,8 +13,7 @@
     "clearConversation": "Clear conversation",
     "resumeConversation": "Resume conversation",
     "showBackgroundTasks": "Workflow: Show background tasks",
-    "scheduleSend": "Schedule a message...",
-    "promptLibrary": "Prompt Library"
+    "scheduleSend": "Schedule a message..."
   },
   "scheduleSend": {
     "title": "Schedule a message",

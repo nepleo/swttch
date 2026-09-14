@@ -12,7 +12,6 @@ export enum IconType {
   Link = 'link',
   Command = 'command',
   Clock = 'clock',
-  Bookmark = 'bookmark',
 }
 
 // Panel Section Types

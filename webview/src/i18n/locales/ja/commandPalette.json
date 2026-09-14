@@ -13,8 +13,7 @@
     "clearConversation": "会話をクリア",
     "resumeConversation": "会話を再開",
     "showBackgroundTasks": "ワークフロー: バックグラウンドタスクを表示",
-    "scheduleSend": "メッセージを予約送信...",
-    "promptLibrary": "プロンプトライブラリ"
+    "scheduleSend": "メッセージを予約送信..."
   },
   "scheduleSend": {
     "title": "メッセージを予約",

@@ -62,8 +62,6 @@ import org.cef.handler.CefRequestHandlerAdapter
 import org.cef.network.CefRequest
 import java.awt.BorderLayout
 import java.awt.Component
-import java.awt.FileDialog
-import java.awt.Frame
 import java.awt.Image
 import java.awt.Point
 import java.awt.datatransfer.DataFlavor
@@ -1831,48 +1829,6 @@ class ClaudeCodePanel(
                     } catch (e: Exception) {
                         logger.warn("Failed to pick files (mode=$mode, multiple=$multiple)", e)
                         result.complete(emptyList())
-                    }
-                }
-                return result.await()
-            }
-
-            /**
-             * Write [contents] to a path chosen in the platform's own save dialog.
-             *
-             * AWT rather than the IDE's `FileSaverDescriptor`: the only variant of
-             * that constructor which exists on our lower bound (2024.2) is the one
-             * newer platforms deprecate, and the replacement it names arrived after
-             * 242 — so there is no spelling of it that is clean on both ends.
-             * `FileDialog` is the JDK's own, opens the real macOS and Windows sheet,
-             * and lands standalone mode's result here too, since BrowserBridge
-             * already asks the OS directly.
-             *
-             * The dialog only names the file; the write is ours, which keeps the
-             * result byte-identical to the one standalone mode produces.
-             */
-            override suspend fun saveFile(suggestedName: String, contents: String): String? {
-                val result = CompletableDeferred<String?>()
-                ApplicationManager.getApplication().invokeLater {
-                    try {
-                        val dialog = FileDialog(null as Frame?, "Save File", FileDialog.SAVE)
-                        project.basePath?.let { dialog.directory = it }
-                        dialog.file = suggestedName
-                        dialog.isVisible = true
-
-                        val directory = dialog.directory
-                        val name = dialog.file
-                        if (directory == null || name == null) {
-                            // A cancelled dialog leaves both null. The user said no.
-                            result.complete(null)
-                        } else {
-                            val file = File(directory, name)
-                            file.parentFile?.mkdirs()
-                            file.writeText(contents, Charsets.UTF_8)
-                            result.complete(file.absolutePath)
-                        }
-                    } catch (e: Exception) {
-                        logger.warn("Failed to save file (suggestedName=$suggestedName)", e)
-                        result.complete(null)
                     }
                 }
                 return result.await()
