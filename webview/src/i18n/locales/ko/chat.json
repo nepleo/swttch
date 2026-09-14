@@ -62,7 +62,7 @@
       "tokensUsed": "토큰 {{tokens}}개 사용",
       "maxContext": "최대 컨텍스트: {{size}}",
       "clickToCompact": "클릭하면 지금 압축합니다",
-      "used": "사용 {{used}}/{{max}}"
+      "used": "{{percent}}% 사용"
     },
     "dragOverlay": {
       "dropHere": "파일이나 폴더를 여기에 드롭하세요"

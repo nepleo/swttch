@@ -62,7 +62,7 @@
       "tokensUsed": "تم استخدام {{tokens}} رمز",
       "maxContext": "الحد الأقصى للسياق: {{size}}",
       "clickToCompact": "انقر للضغط الآن",
-      "used": "مستخدم {{used}}/{{max}}"
+      "used": "تم استخدام {{percent}}%"
     },
     "dragOverlay": {
       "dropHere": "أفلت الملفات أو المجلدات هنا"

@@ -62,7 +62,7 @@
       "tokensUsed": "{{tokens}} tokens usados",
       "maxContext": "Contexto máximo: {{size}}",
       "clickToCompact": "Clique para compactar agora",
-      "used": "Usado {{used}}/{{max}}"
+      "used": "{{percent}}% usado"
     },
     "dragOverlay": {
       "dropHere": "Solte arquivos ou pastas aqui"

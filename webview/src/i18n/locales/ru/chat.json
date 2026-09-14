@@ -62,7 +62,7 @@
       "tokensUsed": "Использовано токенов: {{tokens}}",
       "maxContext": "Макс. контекст: {{size}}",
       "clickToCompact": "Нажмите, чтобы сжать сейчас",
-      "used": "Использовано {{used}}/{{max}}"
+      "used": "Использовано {{percent}}%"
     },
     "dragOverlay": {
       "dropHere": "Перетащите файлы или папки сюда"

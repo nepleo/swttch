@@ -17,15 +17,14 @@ export function ContextWindowTag(props: Props) {
   if (!contextWindowUsage) return null;
 
   const { totalTokens, contextWindow, maxOutputTokens } = contextWindowUsage;
-  // 실제 contextWindow를 아직 받지 못한 상태(세션 로드 직후, 첫 result 이전)에서는
-  // 임의 기준으로 부정확한 사용률을 보이느니 게이지를 그리지 않는다(커서와 동일 동작).
-  if (contextWindow <= 0) return null;
-
-  const percent = calculateContextWindowPercent(totalTokens, contextWindow, maxOutputTokens);
+  // Unknown window (first result not in yet) still shows 0% so the tag is always
+  // visible once usage tracking has started; hover details wait for a real window.
+  const percent = contextWindow > 0
+    ? calculateContextWindowPercent(totalTokens, contextWindow, maxOutputTokens)
+    : 0;
   const remaining = 100 - percent;
-  const isClickable = !disabled && percent >= 10;
-  const usedLabel = formatContextCapacity(totalTokens);
-  const maxLabel = formatContextCapacity(contextWindow);
+  const isClickable = !disabled && contextWindow > 0 && percent >= 10;
+  const maxContext = contextWindow > 0 ? formatContextCapacity(contextWindow) : null;
 
   return (
     <Tippy
@@ -39,12 +38,17 @@ export function ContextWindowTag(props: Props) {
           <p className="text-text-secondary mt-1 text-[0.7692rem]">
             {t('chatInput.contextWindow.tokensUsed', { tokens: totalTokens.toLocaleString() })}
           </p>
+          {maxContext && (
+            <p className="text-text-secondary mt-1 text-[0.7692rem]">
+              {t('chatInput.contextWindow.maxContext', { size: maxContext })}
+            </p>
+          )}
         </div>
       )}
     >
       <div className="flex items-center">
         <Tag onClick={isClickable ? onClick : undefined} disabled={!isClickable}>
-          <span>{t('chatInput.contextWindow.used', { used: usedLabel, max: maxLabel })}</span>
+          <span>{t('chatInput.contextWindow.used', { percent })}</span>
         </Tag>
       </div>
     </Tippy>

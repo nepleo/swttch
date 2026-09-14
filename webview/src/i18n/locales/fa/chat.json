@@ -62,7 +62,7 @@
       "tokensUsed": "{{tokens}} توکن استفاده شده",
       "maxContext": "حداکثر زمینه: {{size}}",
       "clickToCompact": "برای فشرده‌سازی اکنون کلیک کنید",
-      "used": "استفاده {{used}}/{{max}}"
+      "used": "{{percent}}٪ استفاده شده"
     },
     "dragOverlay": {
       "dropHere": "فایل‌ها یا پوشه‌ها را اینجا رها کنید"
