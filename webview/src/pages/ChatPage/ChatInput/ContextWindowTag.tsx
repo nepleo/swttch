@@ -24,7 +24,8 @@ export function ContextWindowTag(props: Props) {
   const percent = calculateContextWindowPercent(totalTokens, contextWindow, maxOutputTokens);
   const remaining = 100 - percent;
   const isClickable = !disabled && percent >= 10;
-  const maxContext = formatContextCapacity(contextWindow);
+  const usedLabel = formatContextCapacity(totalTokens);
+  const maxLabel = formatContextCapacity(contextWindow);
 
   return (
     <Tippy
@@ -38,15 +39,12 @@ export function ContextWindowTag(props: Props) {
           <p className="text-text-secondary mt-1 text-[0.7692rem]">
             {t('chatInput.contextWindow.tokensUsed', { tokens: totalTokens.toLocaleString() })}
           </p>
-          <p className="text-text-secondary mt-1 text-[0.7692rem]">
-            {t('chatInput.contextWindow.maxContext', { size: maxContext })}
-          </p>
         </div>
       )}
     >
-      <div className="flex items-center max-xs:hidden">
+      <div className="flex items-center">
         <Tag onClick={isClickable ? onClick : undefined} disabled={!isClickable}>
-          <span>{t('chatInput.contextWindow.used', { percent })}</span>
+          <span>{t('chatInput.contextWindow.used', { used: usedLabel, max: maxLabel })}</span>
         </Tag>
       </div>
     </Tippy>

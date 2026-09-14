@@ -1,20 +1,103 @@
-import { i18n } from '@/i18n';
+// Claude Code original spinner verbs — always English. Do not route these
+// through i18n: translating them kills the wordplay, and lng overrides have
+// proven unreliable once the UI language is Chinese.
+export const STREAMING_VERBS = [
+    'Accomplishing',
+    'Actioning',
+    'Actualizing',
+    'Baking',
+    'Booping',
+    'Brewing',
+    'Calculating',
+    'Cerebrating',
+    'Channelling',
+    'Churning',
+    'Clauding',
+    'Coalescing',
+    'Cogitating',
+    'Computing',
+    'Combobulating',
+    'Concocting',
+    'Considering',
+    'Contemplating',
+    'Cooking',
+    'Crafting',
+    'Creating',
+    'Crunching',
+    'Deciphering',
+    'Deliberating',
+    'Determining',
+    'Discombobulating',
+    'Doing',
+    'Effecting',
+    'Elucidating',
+    'Enchanting',
+    'Envisioning',
+    'Finagling',
+    'Flibbertigibbeting',
+    'Forging',
+    'Forming',
+    'Frolicking',
+    'Generating',
+    'Germinating',
+    'Hatching',
+    'Herding',
+    'Honking',
+    'Ideating',
+    'Imagining',
+    'Incubating',
+    'Inferring',
+    'Manifesting',
+    'Marinating',
+    'Meandering',
+    'Moseying',
+    'Mulling',
+    'Mustering',
+    'Musing',
+    'Noodling',
+    'Percolating',
+    'Perusing',
+    'Philosophising',
+    'Pontificating',
+    'Pondering',
+    'Processing',
+    'Puttering',
+    'Puzzling',
+    'Reticulating',
+    'Ruminating',
+    'Scheming',
+    'Schlepping',
+    'Shimmying',
+    'Simmering',
+    'Smooshing',
+    'Spelunking',
+    'Spinning',
+    'Stewing',
+    'Sussing',
+    'Synthesizing',
+    'Thinking',
+    'Tinkering',
+    'Transmuting',
+    'Unfurling',
+    'Unravelling',
+    'Vibing',
+    'Wandering',
+    'Whirring',
+    'Wibbling',
+    'Working',
+    'Wrangling',
+] as const;
 
-// Claude Code 원판 스피너 동사(영어 그대로). 인터페이스 언어와 무관하게
-// 항상 en 카탈로그를 쓴다 — 번역하면 말장난이 깨진다.
 export function getVerbs(): readonly string[] {
-    return i18n.t('chat:streamingIndicator.verbs', {
-        returnObjects: true,
-        lng: 'en',
-    }) as string[];
+    return STREAMING_VERBS;
 }
 
 // 아이콘 프레임 (ping-pong)
-export const BASE_FRAMES = ["·", "✢", "*", "✶", "✻", "✽"] as const;
+export const BASE_FRAMES = ['·', '✢', '*', '✶', '✻', '✽'] as const;
 export const ICON_FRAMES = [...BASE_FRAMES, ...[...BASE_FRAMES].reverse()];
 
 // 텍스트 변경 딜레이 스케줄 (ms)
 export const TEXT_CHANGE_DELAYS = [2000, 3000, 5000];
 
 // 스크램블 중간 문자 후보
-export const SCRAMBLE_CHARS = [".", "_"];
+export const SCRAMBLE_CHARS = ['.', '_'];
