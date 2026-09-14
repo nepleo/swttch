@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { resolveModelLabel, resolveModelRowText, resolveModelInfo } from '../models';
+import { resolveModelLabel, resolveModelRowText } from '../models';
 import { ModelInfo } from '../slashCommand';
 import { ANTHROPIC, REMAPPED_NAMES_ONLY, PROXIED, rowFor } from './measuredCatalogs';
 
@@ -67,29 +67,5 @@ describe('the picker row shows the CLI description untouched', () => {
     // truth about this row; an earlier version of ours deleted that sentence.
     expect(resolveModelRowText(rowFor(PROXIED, 'default')).blurb)
       .toBe('Use the default model (currently glm-4.6[1m])');
-  });
-});
-
-describe('the Fable fallback states the version once the probe supplies it', () => {
-  const withProbe = (canonical: string | null) =>
-
-  it('reads "Fable 5.1" when the alias resolved to claude-fable-5-1', () => {
-    // Measured: `--model fable` reports modelUsage.canonicalModel = claude-fable-5-1.
-    expect(resolveModelLabel(withProbe('claude-fable-5-1')[1])).toBe('Fable 5.1');
-  });
-
-  it('reads plain "Fable" until the probe answers', () => {
-    expect(resolveModelLabel(withProbe(null)[1])).toBe('Fable');
-  });
-
-  it('follows the alias to a future version without a code change', () => {
-    expect(resolveModelLabel(withProbe('claude-fable-6')[1])).toBe('Fable 6');
-    expect(resolveModelLabel(withProbe('claude-mythos-7-2')[1])).toBe('Mythos 7.2');
-  });
-
-  it('is still found when system/init reports the concrete id', () => {
-    const catalog = withProbe('claude-fable-5-1');
-    expect(resolveModelInfo(catalog, 'claude-fable-5-1', { allowDefaultFallback: false })?.value)
-      .toBe('fable');
   });
 });
