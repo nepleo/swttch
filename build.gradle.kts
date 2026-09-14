@@ -188,6 +188,18 @@ intellijPlatform {
             untilBuild = provider { null }
         }
         changeNotes = """
+            <h3>0.30.3 - Prompt Library, background agents, and model labels</h3>
+            <ul>
+                <li>Add a Prompt Library for the phrases you retype, opened with !! in the chat input (#440)</li>
+                <li>Add a composer for sending a background agent another message and resuming it (#437)</li>
+                <li>Fix the agent list growing without bound and disappearing on reload (#437)</li>
+                <li>Fix a session past the 30th failing to open and showing the wrong title (#435)</li>
+                <li>Fix a message from another session not appearing until reload (#424)</li>
+                <li>Fix an exception thrown by the IDE on WSL (#439)</li>
+                <li>Honor HTTP_PROXY from settings.json in usage stats (#432, #436)</li>
+                <li>Spell out the model behind the Default row in the composer chip (#444)</li>
+                <li>Name the model that actually runs when a catalog remaps provider slots (#442)</li>
+            </ul>
             <h3>0.30.2 - Asset viewer, plus dictation and session list fixes</h3>
             <ul>
                 <li>Add an Assets screen that collects and steps through the images in a session (#417)</li>
